@@ -35,7 +35,7 @@ class TransactionFactoryTests(TestCase):
             'amount': Decimal("12435.678"),
         }
 
-    def test_create_params(self):
+    def test_set_params(self):
         t = None
         try:
             t = TransactionParams(**self.transaction_data)
@@ -45,7 +45,7 @@ class TransactionFactoryTests(TestCase):
         with self.assertRaises(Exception):
             cls.bad_transaction_params_01 = dataclasses.replace(t, client_id = 0xFAFAFA)
 
-    def test_create_entity_with_id(self):
+    def test_build_entity_with_id(self):
         t = TransactionParams(**self.transaction_data)
-        transaction = TransactionFactory.create_entity_with_id(t)
+        transaction = TransactionFactory.build_entity_with_id(t)
         transaction.check_invariants()

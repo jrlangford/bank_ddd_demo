@@ -17,8 +17,8 @@ class UserTests(TestCase):
             user.validate_id()
 
 class UserFactoryTests(TestCase):
-    def test_create(self):
-        user = UserFactory.create_entity_with_id()
+    def test_build(self):
+        user = UserFactory.build_entity_with_id()
         user.validate_id()
 
 

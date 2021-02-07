@@ -17,11 +17,11 @@ class ClientAppServices():
     client_factory = ClientServices.get_client_factory()
 
     @classmethod
-    def create_and_store_system_client(cls):
+    def create_system_client(cls):
         # This method is in the application layer because it depends on both the users and clients modules
         # Since factories are in charge of id creation, we do not hit the DB for entity creation
-        user = cls.user_factory.create_entity_with_id()
-        client = cls.client_factory.create_entity(user.id)
+        user = cls.user_factory.build_entity_with_id()
+        client = cls.client_factory.build_entity(user.id)
         # We hit the DB only once, during save
         with transaction.atomic():
             user.save()
@@ -42,10 +42,10 @@ class TransactionAppServices():
     transaction_factory = TransactionServices.get_transaction_factory()
 
     @classmethod
-    def create_and_store_transaction(cls, user: User, params: TransactionParams):
+    def create_transaction(cls, user: User, params: TransactionParams):
         # This method is in the application layer because it depends on both the users and transactions modules
         # Since the factory is in charge of id creation, we do not hit the DB for entity creation
-        t = cls.transaction_factory.create_entity_with_id(params)
+        t = cls.transaction_factory.build_entity_with_id(params)
         # We hit the DB only once, during save
         t.save()
         return t

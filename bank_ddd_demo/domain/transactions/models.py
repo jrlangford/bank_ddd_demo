@@ -77,7 +77,7 @@ class TransactionParams():
 
 class TransactionFactory():
     @staticmethod
-    def create_entity_with_id(params: TransactionParams):
+    def build_entity_with_id(params: TransactionParams):
         id = uuid.uuid4()
         transaction = Transaction(id=id, **asdict(params))
         transaction.check_invariants()

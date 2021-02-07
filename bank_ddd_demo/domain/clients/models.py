@@ -16,7 +16,7 @@ class Client(models.Model):
 
 class ClientFactory():
     @staticmethod
-    def create_entity(id):
+    def build_entity(id):
         client = Client(id=id)
         client.check_invariants()
         return client

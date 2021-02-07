@@ -19,6 +19,6 @@ class User(AbstractUser):
 
 class UserFactory():
     @staticmethod
-    def create_entity_with_id():
+    def build_entity_with_id():
         id = uuid.uuid4()
         return User(id=id)

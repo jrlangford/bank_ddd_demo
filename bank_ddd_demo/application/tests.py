@@ -13,7 +13,7 @@ class ClientAppServiceTests(TestCase):
     # Note: Tests would not rely on DB  if save function were mocked
     def test_store_then_get_system_client(self):
         # Tests entity ids hold a value
-        user, client = ClientAppServices.create_and_store_system_client()
+        user, client = ClientAppServices.create_system_client()
         self.assertNotEquals(user.id, None)
         self.assertNotEquals(client.id, None)
 
@@ -24,7 +24,7 @@ class ClientAppServiceTests(TestCase):
         self.assertNotEquals(db_client, None)
 
     def test_get_client_from_user(self):
-        user, client = ClientAppServices.create_and_store_system_client()
+        user, client = ClientAppServices.create_system_client()
 
         try:
             client = ClientAppServices.get_client_from_user(user)
@@ -39,7 +39,7 @@ class ClientAppServiceTests(TestCase):
 class TransactionAppServicesTests(TestCase):
     # Note: Tests would not rely on DB  if save function were mocked
     def test_store_then_get_transaction(self):
-        user, client = ClientAppServices.create_and_store_system_client()
+        user, client = ClientAppServices.create_system_client()
 
         # Tests a client can perform a transaction
         t = TransactionParams(
@@ -49,13 +49,13 @@ class TransactionAppServicesTests(TestCase):
         )
 
         try:
-            transaction = TransactionAppServices.create_and_store_transaction(client, t)
+            transaction = TransactionAppServices.create_transaction(client, t)
         except:
             self.fail("Unexpected exception!")
 
         # Tests a (system) user can register a transaction on the client's behalf
-        another_user = UserServices.get_user_factory().create_entity_with_id()
+        another_user = UserServices.get_user_factory().build_entity_with_id()
         try:
-            transaction = TransactionAppServices.create_and_store_transaction(user, t)
+            transaction = TransactionAppServices.create_transaction(user, t)
         except:
             self.fail("Unexpected exception!")
