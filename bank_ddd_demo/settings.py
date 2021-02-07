@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'users.User'
+
 
 # Application definition
 
@@ -37,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bank_ddd_demo.domain.users',
+    'bank_ddd_demo.domain.clients',
+    'bank_ddd_demo.domain.transactions',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'bank_ddd_demo.urls'
+ROOT_URLCONF = 'bank_ddd_demo.interface.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'bank_ddd_demo.wsgi.application'
+WSGI_APPLICATION = 'bank_ddd_demo.drivers.wsgi.application'
 
 
 # Database
