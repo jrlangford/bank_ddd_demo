@@ -6,6 +6,8 @@ from typing import Tuple, ClassVar
 
 from django.db import models
 
+from data_manipulation.type_conversion import asdict
+
 
 class Transaction(models.Model):
 
@@ -79,6 +81,7 @@ class TransactionFactory():
     @staticmethod
     def build_entity_with_id(params: TransactionParams):
         id = uuid.uuid4()
-        transaction = Transaction(id=id, **asdict(params))
+        params_dict = asdict(params, skip_empty=True)
+        transaction = Transaction(id=id, **params_dict)
         transaction.check_invariants()
         return transaction

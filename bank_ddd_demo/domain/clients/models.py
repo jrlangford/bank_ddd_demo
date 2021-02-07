@@ -1,6 +1,10 @@
 import uuid
+from dataclasses import dataclass, asdict
+from datetime import datetime
 
 from django.db import models
+
+from data_manipulation.type_conversion import asdict
 
 class Client(models.Model):
     id = models.UUIDField(primary_key=True, editable=False)
@@ -14,9 +18,20 @@ class Client(models.Model):
     def check_invariants(self):
         self.validate_id()
 
+@dataclass(frozen=True)
+class ClientPlatformUsageData():
+    """
+    This is a value object that should be used to pass platform usage parameters to the ClientFactory
+    Note: If we weren't using Django Models as entities we would be able to embed this object directly into the aggregate root.
+    """
+    first_transaction_date: datetime = None
+    latest_transaction_date: datetime = None
+
+
 class ClientFactory():
     @staticmethod
-    def build_entity(id):
-        client = Client(id=id)
+    def build_entity(id, usage_data: ClientPlatformUsageData):
+        usage_data_dict = asdict(usage_data, skip_empty=True)
+        client = Client(id=id, **usage_data_dict)
         client.check_invariants()
         return client

@@ -3,8 +3,8 @@ import uuid
 
 from django.db import transaction
 
-from bank_ddd_demo.domain.users.models import User
-from bank_ddd_demo.domain.clients.models import Client
+from bank_ddd_demo.domain.users.models import User, UserPersonalData, UserBasePermissions
+from bank_ddd_demo.domain.clients.models import Client, ClientPlatformUsageData
 from bank_ddd_demo.domain.transactions.models import TransactionParams
 
 from bank_ddd_demo.domain.clients.services import ClientServices
@@ -17,11 +17,11 @@ class ClientAppServices():
     client_factory = ClientServices.get_client_factory()
 
     @classmethod
-    def create_system_client(cls):
+    def create_system_client(cls, personal_data: UserPersonalData, base_permissions: UserBasePermissions):
         # This method is in the application layer because it depends on both the users and clients modules
-        # Since factories are in charge of id creation, we do not hit the DB for entity creation
-        user = cls.user_factory.build_entity_with_id()
-        client = cls.client_factory.build_entity(user.id)
+        # Since factories are in charge of id creation we do not hit the DB for entity creation
+        user = cls.user_factory.build_entity_with_id(personal_data, base_permissions)
+        client = cls.client_factory.build_entity(user.id, ClientPlatformUsageData())
         # We hit the DB only once, during save
         with transaction.atomic():
             user.save()
@@ -44,7 +44,8 @@ class TransactionAppServices():
     @classmethod
     def create_transaction(cls, user: User, params: TransactionParams):
         # This method is in the application layer because it depends on both the users and transactions modules
-        # Since the factory is in charge of id creation, we do not hit the DB for entity creation
+        # TODO: run business logic on user, such as checking he has not transacted more money than he has on an account
+        # Since the factory is in charge of id creation we do not hit the DB for entity creation
         t = cls.transaction_factory.build_entity_with_id(params)
         # We hit the DB only once, during save
         t.save()

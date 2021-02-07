@@ -22,5 +22,5 @@ class ClientTests(TestCase):
 class ClientFactoryTests(TestCase):
     def test_build(self):
         id = uuid.uuid4()
-        user = ClientFactory.build_entity(id)
+        user = ClientFactory.build_entity(id, ClientPlatformUsageData())
         user.validate_id()
