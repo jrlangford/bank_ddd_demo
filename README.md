@@ -1,5 +1,5 @@
 # Online Bank DDD Demo
-A django demo project that losely implements Domain Driven Design.
+A django demo project that loosely implements Domain Driven Design.
 
 Bank Domain: Enabling clients to perform monetary transactions online.
 
@@ -10,6 +10,14 @@ Subdomains/Bounded Contexts:
 - Client Management
 - Account Management
 - Transactions (Core)
+
+## Quickstart
+```
+pipenv install
+pipenv shell
+./manage.py migrate
+./manage.py runserver
+```
 
 ## Architecture
 Implementing an architecture with full layer isolation in Django is not practical.
@@ -66,7 +74,7 @@ If required, the interface and application directories can have one additional l
 **Entities** -> Django models  
 **Value Objects** -> Python frozen dataclasses  
 **Aggregates** -> Django models with foreign keys to other Django models in the same module  
-**Repositories** -> Custom classes that wrap Django Managers  
+**Repositories** -> Django Managers  
 **Factories** -> Custom factory classes  
 
 In order to honor this mappings and reduce coupling, the following restrictions must be imposed
