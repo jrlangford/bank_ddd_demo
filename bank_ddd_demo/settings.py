@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'bank_ddd_demo.domain.users',
     'bank_ddd_demo.domain.clients',
     'bank_ddd_demo.domain.transactions',
+    'rest_framework',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +73,28 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Bank_DDD_Demo',
+    'DESCRIPTION': 'An application built to showcase a loose Domain Driven Design implementation in Django',
+    'TOS': None,
+    # Optional: MAY contain "name", "url", "email"
+    'CONTACT': {
+        "name": "Jonathan Robin Langford",
+        "email": "jrobinlangford@gmail.com"
+    },
+    'VERSION': '0.1.0',
+    'SCHEMA_PATH_PREFIX': r'/api/v[0-9]',
+}
 
 WSGI_APPLICATION = 'bank_ddd_demo.drivers.wsgi.application'
 
